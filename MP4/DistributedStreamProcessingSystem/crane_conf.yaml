@@ -1,0 +1,5 @@
+nimbus:
+    ip: 172.22.150.85
+
+supervisor:
+    rpc_port: 2336

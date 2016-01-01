@@ -1,0 +1,37 @@
+machines:
+    0:
+        id: 0
+        nodes:
+            0-1:
+                id: 0-1
+                class: spout
+                name: tweets_source
+                input: test.csv
+                frequency: 10
+                buffer_size: 1000
+                children: 
+                    1-1:
+                        id: 1-1
+                tuple_port: 2433
+                # spout: 
+                    # id: 0-1
+    1:
+        id: 1
+        nodes:
+            1-1:
+                id: 1-1
+                class: bolt
+                type: transform
+                sink: True
+                output: headers.txt
+                name: collect_header
+                parent: 0-1
+                tuple_port: 2433
+                spout: 
+                    id: 0-1
+                function: "lambda t: t[:5]"
+
+
+
+
+

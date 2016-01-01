@@ -1,0 +1,53 @@
+machines:
+    0:
+        id: 0
+        nodes:
+            0-1:
+                id: 0-1
+                class: spout
+                name: tweets_source
+                input: 10m.csv
+                frequency: 10
+                buffer_size: 1000
+                children: 
+                    1-1:
+                        id: 1-1
+                tuple_port: 2433
+                # spout: 
+                    # id: 0-1
+    1:
+        id: 1
+        nodes:
+            1-1:
+                id: 1-1
+                class: bolt
+                type: transform
+                sink: False
+                name: count_len
+                parent: 0-1
+                children:
+                    2-1:
+                        id: 2-1
+                tuple_port: 2433
+                spout: 
+                    id: 0-1
+                function: "lambda t: (len(t[5].strip().split()), 1)"
+    2:
+        id: 2
+        nodes:
+            2-1:
+                id: 2-1
+                class: bolt
+                type: reduce
+                sink: True
+                output: dummy
+                name: avg
+                parent: 1-1
+                tuple_port: 2433
+                spout: 
+                    id: 0-1
+                function: "lambda x, y: (float(x[0] * x[1] + y[0] * y[1]) / float(x[1] + y[1]), (x[1] + y[1]))"
+
+
+
+

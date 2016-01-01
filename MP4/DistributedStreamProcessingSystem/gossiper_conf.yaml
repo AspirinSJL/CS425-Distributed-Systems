@@ -1,0 +1,10 @@
+introducer:
+    ip: 172.22.150.85
+port: 2334
+interval:
+    gossip: 0.2
+    reading: 0.2
+threshold:
+    suspect: 2
+    fail: 4
+    forget: 2
